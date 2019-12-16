@@ -1,0 +1,39 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+matrix = np.loadtxt(open("Record_2019-12-05_09-34-35_0.csv", "rb"), delimiter=";", skiprows=1, dtype="str")
+
+# get max number
+floatMatrix = np.zeros((len(matrix),len(matrix[0])))
+maxVal = 0
+minVal = 10000
+for i in range(len(matrix)):
+    for j in range(len(matrix[i])):
+        if not matrix[i][j] == "":
+            floatVal = float(matrix[i][j].replace(",","."))
+        else:
+            floatVal = 0
+
+        if floatVal > maxVal:
+            maxVal = floatVal
+
+        if floatVal < minVal and floatVal != 0:
+            minVal = floatVal
+
+        floatMatrix[i][j] = floatVal
+
+        
+data = np.genfromtxt("Record_2019-12-05_09-34-35_0.csv", delimiter=";")
+plt.subplot(221)
+plt.imshow(floatMatrix, cmap='plasma', interpolation='nearest', vmin=minVal, vmax=maxVal)
+plt.colorbar()
+plt.subplot(222)
+plt.imshow(floatMatrix, cmap='magma', interpolation='nearest', vmin=minVal, vmax=maxVal)
+plt.colorbar()
+plt.subplot(223)
+plt.imshow(floatMatrix, cmap='Greys', interpolation='nearest', vmin=minVal, vmax=maxVal)
+plt.colorbar()
+plt.subplot(224)
+plt.imshow(floatMatrix, cmap='gray', interpolation='nearest', vmin=minVal, vmax=maxVal)
+plt.colorbar()
+plt.show()
